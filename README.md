@@ -61,7 +61,7 @@ Speed Selector & Strobe
 
 | File | Description |
 | --- | --- |
-| FT_simpleFOC.cpp | closed-loop control script |
+| FT_simpleFOC.ino | closed-loop control script |
 | HallSensor.cpp & .h | Modified simpleFOC hall sensor class compatible with linear sensors (user configurable thresholds) |
 
 # 🚧 Project Status
