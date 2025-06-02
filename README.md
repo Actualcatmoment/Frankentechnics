@@ -65,8 +65,7 @@ Speed Selector & Strobe
 | HallSensor.cpp & .h | Modified simpleFOC hall sensor class compatible with linear sensors (user configurable thresholds) |
 
 # 🚧 Project Status
-🟡 In Progress – All compon 
-ents are built, still ironing out the code issues.
+🟡 In Progress – All components are built, still ironing out the code issues.
 
 # 📚 Credits
 Thanks to:
