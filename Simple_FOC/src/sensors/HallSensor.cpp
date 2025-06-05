@@ -29,8 +29,8 @@ HallSensor::HallSensor(int _hallA, int _hallB, int _hallC, int _pp, bool _linear
 //  HallSensor interrupt callback functions
 // A channel
 void HallSensor::handleA() {
-	if(linear) {
-		if(analogRead(pinA) >=thA) {A_active= 1;} else {A_active= 0;}
+	if(linear) { //Linear Hall Thresholding for pin A. This doesn't work and I don't know why, no errors just silently not working properly.
+		if(analogRead(pinA) >=thA) {A_active= 1;} else {A_active= 0;} 
 		updateState();
 	} else {
 	A_active= digitalRead(pinA);
@@ -39,7 +39,7 @@ void HallSensor::handleA() {
 }
 // B channel
 void HallSensor::handleB() {
-	if(linear) {
+	if(linear) { //Linear Hall Thresholding for pin B.
 		if(analogRead(pinB) >=thB) {B_active= 1;} else {B_active= 0;}
 		updateState();
 	} else {
@@ -50,7 +50,7 @@ void HallSensor::handleB() {
 
 // C channel
 void HallSensor::handleC() {
-	if(linear) {
+	if(linear) { //Linear Hall Thresholding for pin B.
 		if(analogRead(pinC) >=thC) {C_active= 1;} else {C_active= 0;}
 		updateState();
 	} else {
