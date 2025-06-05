@@ -56,16 +56,40 @@ Speed Selector & Strobe
 
 # Schematic
 ![Franken Technics Schematic V2](https://github.com/user-attachments/assets/d90157ee-9dd6-4767-9f3a-3789fda2f242)
+Just pretend that's a Minima or Uno instead of a nano. 
 
 # 🧠 In this Repo
 
 | File | Description |
 | --- | --- |
-| FT_simpleFOC.ino | closed-loop control script |
-| HallSensor.cpp & .h | Modified simpleFOC hall sensor class compatible with linear sensors (user configurable thresholds) |
+| FT_simpleFOC.ino | closed-loop control script (to be added) |
+| HallSensor.cpp & .h | Modified simpleFOC hall sensor class compatible with linear sensors (currently not working properly) |
 
 # 🚧 Project Status
-🟡 In Progress – All components are built, still ironing out the code issues.
+🟡 In Progress – All components are built, still fighting with posistion sensing code issues.
+
+For whatever reason I cannot get simple FOC to detect rotation, despite the fact that it was working earlier.
+Sadly I didn't backup my working version of the script so it's looking like I might be back to square one.
+Maybe it's a hardware issue? Serial debug data was giving me some very weird values and the sine waves I was seeing in early tests are completely missing.
+
+- [x] Reverse engineer and troubleshoot the old circuitboard.
+- [x] Replace burnt out power transformer.
+- [x] Design the power supply and sensor schematic.
+- [x] Build the PSU module.
+- [x] Retrofit Hall Effect Sensors.
+- [x] Breakout existing motor wiring.
+- [x] Breakout the existing speed selection switch and potentiometer.
+  - [x] Build voltage dividing satellite board for two distinct adjustment ranges.
+- [x] Connect the PSU, BLDC driver, Motor, switches, and arduino.
+- [x] Make the arduino talk with the BLDC driver. (Get open-loop control working)
+- [ ] Make the hall sensors talk to the arduino. (Get closed-loop control working)
+  - [ ] Figure out why the hall data is so weird.
+  - [ ] Find a way to implement angle sensing from three linear hall sensors set 120 degrees apart. 
+   - Existing open source code expects two sensors 180 degrees apart or three digital halls.
+- [ ] Implement Speed selection and adjustment.
+- [ ] Tweak PID values and implement soft start.
+- [ ] Tidy up the code. (and annotate it better)
+- [ ] Celebrate by listening to my favorite album. (Night Gnomes by Psychedelic Porn Crumpets!)
 
 # 📚 Credits
 Thanks to:
