@@ -79,7 +79,7 @@ Maybe it's a hardware issue? Serial debug data was giving me some very weird val
 - [x] Retrofit Hall Effect Sensors.
 - [x] Breakout existing motor wiring.
 - [x] Breakout the existing speed selection switch and potentiometer.
-  - [x] Build voltage dividing satellite board for two distinct adjustment ranges.
+  - [x] Build voltage dividing satellite board for two distinct adjustment ranges (and connect the strobe to this too for easy connection).
 - [x] Connect the PSU, BLDC driver, Motor, switches, and arduino.
 - [x] Make the arduino talk with the BLDC driver. (Get open-loop control working)
 - [ ] Make the hall sensors talk to the arduino. (Get closed-loop control working)
@@ -88,7 +88,7 @@ Maybe it's a hardware issue? Serial debug data was giving me some very weird val
    - Existing open source code expects two sensors 180 degrees apart or three digital halls.
 - [ ] Implement Speed selection and adjustment.
 - [ ] Tweak PID values and implement soft start.
-- [ ] Tidy up the code. (and annotate it better)
+- [ ] Tidy up the code. (also annotate it better)
 - [ ] Celebrate by listening to my favorite album. (Night Gnomes by Psychedelic Porn Crumpets!)
 
 # 📚 Credits
