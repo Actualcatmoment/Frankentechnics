@@ -46,15 +46,17 @@ class HallSensor: public Sensor{
     void handleC();
     
     
-    // pins A, B, and C + Linear Hall thresholds.
+    // pins A, B, and C
     int pinA; //!< HallSensor hardware pin A
     int pinB; //!< HallSensor hardware pin B
     int pinC; //!< HallSensor hardware pin C
     int use_interrupt; //!< True if interrupts have been attached
-	int thA; //!< Linear Hall threshold for pin A
-	int thB; //!< Linear Hall threshold for pin B
-	int thC; //!< Linear Hall threshold for pin C
-	bool linear; //!< bool to switch to digital aproximation from linear input
+
+    //Linear Hall Thresholds
+    int thA; //!< Linear Hall threshold for pin A
+    int thB; //!< Linear Hall threshold for pin B
+    int thC; //!< Linear Hall threshold for pin C
+    bool linear; //!< bool to switch to digital aproximation from linear input
 
     // HallSensor configuration
     Pullup pullup; //!< Configuration parameter internal or external pullups
