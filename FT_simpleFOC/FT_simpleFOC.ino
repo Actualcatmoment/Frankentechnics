@@ -4,7 +4,7 @@
 BLDCMotor motor = BLDCMotor(8, 42);
 
 // BLDC driver instance BLDCDriver3PWM(phA, phB, phC, (en))
-BLDCDriver3PWM driver = BLDCDriver3PWM(3, 6, 11, 8); 
+BLDCDriver3PWM driver = BLDCDriver3PWM(3, 6, 11, 2); 
 
 // commander instance
 Commander commander = Commander(Serial);
@@ -16,9 +16,11 @@ HallSensor sensor = HallSensor(A0, A1, A2, 8);
 void setup() {
   analogReadResolution(12);
   analogWriteResolution(10);
+
+  //60Hz LED Strobe for Turntable timing marks
   analogWrite(D10, 125);
 
-  // start serial
+  //Start serial, Wait for stable.
   Serial.begin(38400);
   while(!Serial){};
 

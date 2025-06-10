@@ -55,15 +55,18 @@ Speed Selector & Strobe
 | Strobe | D2 |
 
 # Schematic
-![Franken Technics Schematic V2](https://github.com/user-attachments/assets/d90157ee-9dd6-4767-9f3a-3789fda2f242)
-Just pretend that's a Minima or Uno instead of a nano. 
+### Power Supply
+![FT Power Supply](C:\Users\Monolith\Documents\-_-Important Stuff-_-\Projects\FrankenTechnics Turntable\Franken Technics Voltage Regulator Schematic.png)
+### Turntable Schematic
+![FT Schematic V3](C:\Users\Monolith\Documents\-_-Important Stuff-_-\Projects\FrankenTechnics Turntable\Franken Technics Schematic V3.png)
+
 
 # 🧠 In this Repo
 
-| File | Description |
-| --- | --- |
-| FT_simpleFOC.ino | closed-loop control script (to be added) |
-| HallSensor.cpp & .h | Modified simpleFOC hall sensor class compatible with linear sensors (currently not working properly) |
+| File | Description | Status |
+| --- | --- | --- |
+| FT_simpleFOC.ino | closed-loop control script | Unfinished |
+| HallSensor.cpp & .h | Modified simpleFOC hall sensor class compatible with linear sensors | Unfinished |
 
 # 🚧 Project Status
 🟡 In Progress – All components are built, still fighting with posistion sensing code issues.
