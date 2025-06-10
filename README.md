@@ -35,11 +35,10 @@ Speed Selector: Original switch reused; analog-read mapped to RPM control
 BLDC Driver Pins
 | Function | Arduino Pin |
 | --- | --- | 
-| Enable | 8 |
-| IN3 | 9 |
-| IN2	| 10 |
-| IN1	| 11 |
-| GND	| 12 |
+| Enable | D2 |
+| IN3 | D3 |
+| IN2	| D6 |
+| IN1	| D11 |
 
 Hall Sensors 
 | Wire | Arduino Pin |
@@ -52,14 +51,13 @@ Speed Selector & Strobe
 | Wire | Arduino Pin |
 | --- | --- |
 | Sense | A3 |
-| Strobe | D2 |
+| Strobe | D10 |
 
 # Schematic
 ### Power Supply
-![FT Power Supply](C:\Users\Monolith\Documents\-_-Important Stuff-_-\Projects\FrankenTechnics Turntable\Franken Technics Voltage Regulator Schematic.png)
+![Franken Technics Voltage Regulator Schematic](https://github.com/user-attachments/assets/7c190d79-e471-4135-b6fd-48bae12f2daa)
 ### Turntable Schematic
-![FT Schematic V3](C:\Users\Monolith\Documents\-_-Important Stuff-_-\Projects\FrankenTechnics Turntable\Franken Technics Schematic V3.png)
-
+![Franken Technics Schematic V3](https://github.com/user-attachments/assets/e0a63e5f-15b3-4f41-8e8b-94f582d5a7f9)
 
 # 🧠 In this Repo
 
