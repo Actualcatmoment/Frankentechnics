@@ -69,9 +69,10 @@ Speed Selector & Strobe
 # 🚧 Project Status
 🟡 In Progress – All components are built, still fighting with posistion sensing code issues.
 
-For whatever reason I cannot get simple FOC to detect rotation, despite the fact that it was working earlier.
-Sadly I didn't backup my working version of the script so it's looking like I might be back to square one.
-Maybe it's a hardware issue? Serial debug data was giving me some very weird values and the sine waves I was seeing in early tests are completely missing.
+~For whatever reason I cannot get simple FOC to detect rotation, despite the fact that it was working earlier.~
+
+Implemented clarke transform and atan2 to calculate angle of the platter from hall sensor input. Angle detection is now working, atleast within the sensor script.
+still figuring out how to get it to talk to the simpleFOC library.
 
 - [x] Reverse engineer and troubleshoot the old circuitboard.
 - [x] Replace burnt out power transformer.
