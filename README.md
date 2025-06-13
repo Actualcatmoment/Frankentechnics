@@ -64,7 +64,7 @@ Speed Selector & Strobe
 | File | Description | Status |
 | --- | --- | --- |
 | FT_simpleFOC.ino | closed-loop control script | Unfinished |
-| HallSensor.cpp & .h | Modified simpleFOC hall sensor class compatible with linear sensors | Unfinished |
+| LinearHall.cpp & .h | Modified simpleFOC hall sensor class compatible with linear sensors | Working? |
 
 # 🚧 Project Status
 🟡 In Progress – All components are built, still fighting with posistion sensing code issues.
@@ -84,8 +84,8 @@ Maybe it's a hardware issue? Serial debug data was giving me some very weird val
 - [x] Connect the PSU, BLDC driver, Motor, switches, and arduino.
 - [x] Make the arduino talk with the BLDC driver. (Get open-loop control working)
 - [ ] Make the hall sensors talk to the arduino. (Get closed-loop control working)
-  - [ ] Figure out why the hall data is so weird.
-  - [ ] Find a way to implement angle sensing from three linear hall sensors set 120 degrees apart. 
+  - [x] Figure out why the hall data is so weird. (implemented rolling average smoothing and dynamic center adjustment)
+  - [x] Find a way to implement angle sensing from three linear hall sensors set 120 degrees apart. (clarke transform followed by atan2)
    - Existing open source code expects two sensors 180 degrees apart or three digital halls.
 - [ ] Implement Speed selection and adjustment.
 - [ ] Tweak PID values and implement soft start.
