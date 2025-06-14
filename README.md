@@ -55,7 +55,8 @@ Speed Selector & Strobe
 ### Power Supply
 ![Franken Technics Voltage Regulator Schematic](https://github.com/user-attachments/assets/7c190d79-e471-4135-b6fd-48bae12f2daa)
 ### Turntable Schematic
-![Franken Technics Schematic V3](https://github.com/user-attachments/assets/e0a63e5f-15b3-4f41-8e8b-94f582d5a7f9)
+![Franken Technics Schematic V3](https://github.com/user-attachments/assets/6c4bfffb-2073-4175-a504-7ac1392702c0)
+
 
 # 🧠 In this Repo
 
