@@ -64,7 +64,7 @@ Speed Selector & Strobe
 | File | Description | Status |
 | --- | --- | --- |
 | FT_simpleFOC.ino | closed-loop control script | Unfinished |
-| LinearHall.cpp & .h | Modified simpleFOC hall sensor class compatible with linear sensors | Working! |
+| TriLinearHall.cpp & .h | Bespoke custom sensor class for 120° linear hall array | Working! |
 
 # 🚧 Project Status
 🟡 In Progress – All components are built, still fighting with posistion sensing code issues.
