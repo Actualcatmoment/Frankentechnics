@@ -35,23 +35,23 @@ Speed Selector: Original switch reused; analog-read mapped to RPM control
 BLDC Driver Pins
 | Function | Arduino Pin |
 | --- | --- | 
-| Enable | D2 |
-| IN3 | D3 |
-| IN2	| D6 |
+| Enable | D8 |
+| IN3 | D9 |
+| IN2	| D10 |
 | IN1	| D11 |
 
 Hall Sensors 
 | Wire | Arduino Pin |
 | --- | --- |
-| H1 | A2 |
+| H1 | A0 |
 | H2 | A1 |
-| H3 | A0 |
+| H3 | A2 |
 
 Speed Selector & Strobe
 | Wire | Arduino Pin |
 | --- | --- |
 | Sense | A3 |
-| Strobe | D10 |
+| Strobe | D2 |
 
 # Schematic
 ### Power Supply
