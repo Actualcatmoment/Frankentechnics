@@ -63,7 +63,8 @@ Speed Selector & Strobe
 | File | Description | Status |
 | --- | --- | --- |
 | FT_simpleFOC.ino | closed-loop control script | Unfinished |
-| TriLinearHall.cpp & .h | Bespoke custom sensor class for 120° linear hall array | Working! |
+| TriLinearHall.cpp & .h | Bespoke custom sensor class for 120° linear hall array | depreciated |
+| LinearHall120.cpp & .h | Open source linear hall sensor class with clarke transform for 120° hall array handling | Working! |
 
 # 🚧 Project Status
 🟡 In Progress – All components are built, still fighting with posistion sensing code issues.
@@ -96,6 +97,8 @@ still figuring out how to get it to talk to the simpleFOC library.
 # 📚 Credits
 Thanks to:
 
-SimpleFOC for making BLDC control more approachable
+SimpleFOC for making BLDC control more approachable.
 
-Andrew at Bushtronix for the hardware
+dekutree64 for making the original open source linear hall code and pointing me at a much easier solution than my spaghetti code. 
+
+Andrew at Bushtronix for the hardware.
