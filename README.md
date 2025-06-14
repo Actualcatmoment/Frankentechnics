@@ -17,7 +17,7 @@ Strobe light synced to 60Hz visual timing marks on platter
 Configurable control constants for motion tuning
 
 ## Hardware
-Microcontroller: Arduino R4 minima (or any arduino compatible MCU with atleast 85000 bytes of progmem).
+Microcontroller: Arduino R4 minima (or any arduino compatible MCU with enough progmem).
 
 Motor Driver: SimpleFOCmini or compatible BLDC driver
 
