@@ -14,8 +14,6 @@ RPM selection based on potentiometer input (mapped to 33⅓ or 45 RPM with fine 
 
 Strobe light synced to 60Hz visual timing marks on platter
 
-Optional debug serial output showing raw sensor data and current speed
-
 Configurable control constants for motion tuning
 
 ## Hardware
