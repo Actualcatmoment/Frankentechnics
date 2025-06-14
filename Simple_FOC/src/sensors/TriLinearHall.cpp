@@ -1,8 +1,8 @@
 // Shaft angle calculation with 3-phase Hall sensors and rolling average smoothing
 
-#include "LinearHall.h"
+#include "TriLinearHall.h"
 
-LinearHall::LinearHall(uint8_t _pp, uint16_t window, float _tau): 
+TriLinearHall::TriLinearHall(uint8_t _pp, uint16_t window, float _tau): 
     WINDOW(window),      // samples per rolling average
     POLE_PAIRS(_pp),       // 8 magnets → 4 electrical pole-pairs
 	TAU(_tau),
@@ -17,7 +17,7 @@ LinearHall::LinearHall(uint8_t _pp, uint16_t window, float _tau):
   }
 
 // Update rolling average for channel ch (0 → A0, 1 → A1, 2 → A2)
-uint16_t LinearHall::rollAverage(uint8_t ch){ //find rolling average
+uint16_t TriLinearHall::rollAverage(uint8_t ch){ //find rolling average
   uint16_t x = analogRead(A0 + ch); //read values
   sum[ch] -= buf[ch][idx[ch]]; //sliding window sum
   buf[ch][idx[ch]] = x;
@@ -30,7 +30,7 @@ uint16_t LinearHall::rollAverage(uint8_t ch){ //find rolling average
 }
 
 //find min/max values
-uint16_t LinearHall::minMax(uint8_t ch){
+uint16_t TriLinearHall::minMax(uint8_t ch){
   uint8_t limit = spl[ch]; //until full, scan only valid entries.
   for (int i = 0; i < limit; ++i) {
     uint16_t v = buf[ch][i];
@@ -41,7 +41,7 @@ uint16_t LinearHall::minMax(uint8_t ch){
   return center[ch];
 }
 
-float LinearHall::normalise(uint8_t ch) {
+float TriLinearHall::normalise(uint8_t ch) {
   float pos = maxRd[ch] - minMax(ch);
   float neg = minMax(ch) - minRd[ch];
   float amp = max(pos, neg);
@@ -50,7 +50,7 @@ float LinearHall::normalise(uint8_t ch) {
 }
 
 // Compute shaft mechanical angle [rad]
-float LinearHall::getSensorAngle() {
+float TriLinearHall::getSensorAngle() {
   // Read and smooth each channel
   float VA = normalise(0);
   float VB = normalise(1);
@@ -83,7 +83,7 @@ float LinearHall::getSensorAngle() {
   return mechWrapped;
 }
 
-float LinearHall::getVelocity() {
+float TriLinearHall::getVelocity() {
   // 1) get the latest mechanical angle
   float mech = getSensorAngle();
 
@@ -116,7 +116,7 @@ float LinearHall::getVelocity() {
 }
 
 // Initialize buffers and sums
-void LinearHall::init() {
+void TriLinearHall::init() {
   for(int i = 0; i < PINS; ++i) {
   memset(buf[i],  0, WINDOW * sizeof(uint16_t));
   }

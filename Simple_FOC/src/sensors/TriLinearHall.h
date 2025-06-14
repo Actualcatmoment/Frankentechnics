@@ -1,17 +1,17 @@
-#ifndef LINEAR_HALL_H
-#define LINEAR_HALL_H
+#ifndef TRI_LINEAR_HALL_H
+#define TRI_LINEAR_HALL_H
 
 #include <Arduino.h>
 #include <math.h>
 #include "../common/base_classes/Sensor.h"
 
-class LinearHall: public Sensor{
+class TriLinearHall: public Sensor{
 public:
   // --- Configuration (you can tweak these before including) ---
   static const uint8_t  PINS       = 3;   // channels A0, A1, A2
 
   // --- Constructor ---
-  LinearHall(uint8_t _pp, uint16_t window, float _tau);
+  TriLinearHall(uint8_t _pp, uint16_t window, float _tau);
 
   // --- Initialization & state update ---
   void     init();
@@ -54,4 +54,4 @@ private:
   uint16_t velCount = 0;
 };
 
-#endif // LINEAR_HALL_H
+#endif // TRI_LINEAR_HALL_H
