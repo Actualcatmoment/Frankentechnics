@@ -1,56 +1,64 @@
  #include <SimpleFOC.h>
 
-// BLDC motor instance BLDCMotor(polepairs, (R), (KV), (L)) 8, 42, nan, 66
+// BLDC motor instance BLDCMotor(polepairs, (R), (KV), (L))
 BLDCMotor motor = BLDCMotor(8, 42);
 
 // BLDC driver instance BLDCDriver3PWM(phA, phB, phC, (en))
-BLDCDriver3PWM driver = BLDCDriver3PWM(3, 6, 11, 2); 
+BLDCDriver3PWM driver = BLDCDriver3PWM(11, 10, 9, 8); 
 
 // commander instance
-Commander commander = Commander(Serial);
-void onMotor(char* cmd){ commander.motor(&motor,cmd); }
+Commander command = Commander(Serial);
+void doMotor(char* cmd){ command.motor(&motor,cmd); }
 
 //sensor instance
-HallSensor sensor = HallSensor(A0, A1, A2, 8);
+LinearHall120 sensor = LinearHall120(A0, A1, A2, 4);
 
 void setup() {
-  analogReadResolution(12);
-  analogWriteResolution(10);
-
-  //60Hz LED Strobe for Turntable timing marks
-  analogWrite(D10, 125);
-
+  pinMode(6, OUTPUT);
   //Start serial, Wait for stable.
-  Serial.begin(38400);
+  Serial.begin(115200);
   while(!Serial){};
-
-  //Sensor
-  sensor.init();
+  SimpleFOCDebug::enable();
 
   //Driver config and motor link.
+  driver.enable_active_high = false;
+  driver.pwm_frequency = 32000;
   driver.voltage_power_supply = 30;
-  driver.voltage_limit = 12;
-  driver.pwm_frequency = 50000;
+  driver.voltage_limit = 10;
   driver.init();
-  driver.enable();
   motor.linkDriver(&driver);
 
   // set motion control type to velocity openloop, and torque control to voltage (default).
   motor.controller = MotionControlType::velocity;
   motor.torque_controller = TorqueControlType::voltage;
-  motor.phase_resistance = 42;
-  motor.current_limit = 0.7;
+  motor.modulation_centered = 1.0;
+  motor.motion_downsample = 0.0;
+  motor.phase_resistance = 42.0;
+  motor.velocity_limit = 20;
+  motor.voltage_limit = 10;
+  motor.current_limit = 1;
+  motor.voltage_sensor_align = 7;
+  motor.sensor_direction=Direction::CW;
+  motor.zero_electric_angle=5.3848;
+  motor.useMonitoring(Serial);
+  motor.monitor_downsample = 0; // disable monitor at first - optional
   motor.init();
 
-  //Enable commander
-  commander.add('M',onMotor,"my motor");
-
+  //Sensor
+  sensor.init(542, 489, 520);
+  motor.linkSensor(&sensor);
+  
   motor.initFOC();
+
+  //Enable commander
+  command.add('M',doMotor,"motor");
+
 }
 
 void loop() {
   //Motor control & serial commands for simpleFOC
   motor.loopFOC();
   motor.move();
-  commander.run();
+  command.run();
+  motor.monitor();
 } 
