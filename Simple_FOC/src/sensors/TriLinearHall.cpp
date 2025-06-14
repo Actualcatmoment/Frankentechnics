@@ -64,7 +64,7 @@ float TriLinearHall::getSensorAngle() {
   float elec = atan2(beta, alpha);
   if (elec < 0) elec += 2*PI;
 
-  // 3) detect and correct wrap-around at ±π
+  // detect and correct wrap-around at ±π
   float delta = elec - lastElec;
   if (delta >  M_PI) delta -= 2 * M_PI;
   if (delta < -M_PI) delta += 2 * M_PI;
@@ -73,10 +73,10 @@ float TriLinearHall::getSensorAngle() {
   elecUnwrapped += delta;   // now grows continuously
   lastElec        = elec;
 
-  // 4) convert to mechanical angle (unwrapped)
+  // convert to mechanical angle (unwrapped)
   float mechUnwrapped = elecUnwrapped / float(POLE_PAIRS);
 
-  // 5) fold it into [0 … 2π)
+  // fold it into [0 … 2π)
   float mechWrapped = fmod(mechUnwrapped, 2 * M_PI);
   if (mechWrapped < 0) mechWrapped += 2 * M_PI;
 
@@ -84,30 +84,23 @@ float TriLinearHall::getSensorAngle() {
 }
 
 float TriLinearHall::getVelocity() {
-  // 1) get the latest mechanical angle
-  float mech = getSensorAngle();
+  float mech = getSensorAngle(); // get the latest mechanical angle
 
-  // 2) compute dt correctly
-  unsigned long now = micros();
+  unsigned long now = micros(); //compute dt
   float dt = (now - lastVelMicros) * 1e-6f;
   if (dt <= 0) dt = 1e-6f;
   lastVelMicros = now;
 
-  // 3) delta‐angle with wrap correction
-  float delta = mech - lastVelAngle;
+  float delta = mech - lastVelAngle; //delta‐angle with wrap correction
   if (delta >  M_PI) delta -= 2*M_PI;
   if (delta < -M_PI) delta += 2*M_PI;
   lastVelAngle = mech;
 
-  // 4) instantaneous velocity
-  float rawVel = delta / dt;
-
-  // 5) optional dead‐band & sanity clamp
-  if (fabs(rawVel) < 0.01f) rawVel = 0.0f; 
+  float rawVel = delta / dt;  //instantaneous velocity
+  if (fabs(rawVel) < 0.01f) rawVel = 0.0f;   //dead‐band & sanity clamp
   if (fabs(rawVel) > MAX_VEL_RAD_S) rawVel = lastValidVel;
 
-  // 6) single‐pole IIR low-pass filter (time-constant τ)
-  //    lastValidVel holds the filtered output from the prior call.
+  //single‐pole IIR low-pass filter (time-constant τ)
   float alpha = dt / (TAU + dt);          // dt/(τ + dt)
   lastValidVel = alpha * rawVel
                + (1.0f - alpha) * lastValidVel;

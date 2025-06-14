@@ -7,7 +7,7 @@
 
 class TriLinearHall: public Sensor{
 public:
-  // --- Configuration (you can tweak these before including) ---
+  // --- Configuration ---
   static const uint8_t  PINS       = 3;   // channels A0, A1, A2
 
   // --- Constructor ---
