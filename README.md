@@ -14,12 +14,10 @@ RPM selection based on potentiometer input (mapped to 33⅓ or 45 RPM with fine 
 
 Strobe light synced to 60Hz visual timing marks on platter
 
-Optional debug serial output showing raw sensor data and current speed
-
 Configurable control constants for motion tuning
 
 ## Hardware
-Microcontroller: Arduino R4 minima (or any arduino compatible MCU with atleast 85000 bytes of progmem).
+Microcontroller: Arduino R4 minima (or any arduino compatible MCU with enough progmem).
 
 Motor Driver: SimpleFOCmini or compatible BLDC driver
 
@@ -35,43 +33,46 @@ Speed Selector: Original switch reused; analog-read mapped to RPM control
 BLDC Driver Pins
 | Function | Arduino Pin |
 | --- | --- | 
-| Enable | D2 |
-| IN3 | D3 |
-| IN2	| D6 |
+| Enable | D8 |
+| IN3 | D9 |
+| IN2	| D10 |
 | IN1	| D11 |
 
 Hall Sensors 
 | Wire | Arduino Pin |
 | --- | --- |
-| H1 | A2 |
+| H1 | A0 |
 | H2 | A1 |
-| H3 | A0 |
+| H3 | A2 |
 
 Speed Selector & Strobe
 | Wire | Arduino Pin |
 | --- | --- |
 | Sense | A3 |
-| Strobe | D10 |
+| Strobe | D2 |
 
 # Schematic
 ### Power Supply
 ![Franken Technics Voltage Regulator Schematic](https://github.com/user-attachments/assets/7c190d79-e471-4135-b6fd-48bae12f2daa)
 ### Turntable Schematic
-![Franken Technics Schematic V3](https://github.com/user-attachments/assets/e0a63e5f-15b3-4f41-8e8b-94f582d5a7f9)
+![Franken Technics Schematic V3](https://github.com/user-attachments/assets/6c4bfffb-2073-4175-a504-7ac1392702c0)
+
 
 # 🧠 In this Repo
 
 | File | Description | Status |
 | --- | --- | --- |
 | FT_simpleFOC.ino | closed-loop control script | Unfinished |
-| HallSensor.cpp & .h | Modified simpleFOC hall sensor class compatible with linear sensors | Unfinished |
+| TriLinearHall.cpp & .h | Bespoke custom sensor class for 120° linear hall array | depreciated |
+| LinearHall120.cpp & .h | Open source linear hall sensor class with clarke transform for 120° hall array handling | Working! |
 
 # 🚧 Project Status
 🟡 In Progress – All components are built, still fighting with posistion sensing code issues.
 
-For whatever reason I cannot get simple FOC to detect rotation, despite the fact that it was working earlier.
-Sadly I didn't backup my working version of the script so it's looking like I might be back to square one.
-Maybe it's a hardware issue? Serial debug data was giving me some very weird values and the sine waves I was seeing in early tests are completely missing.
+~For whatever reason I cannot get simple FOC to detect rotation, despite the fact that it was working earlier.~
+
+Implemented clarke transform and atan2 to calculate angle of the platter from hall sensor input. Angle detection is now working, atleast within the sensor script.
+still figuring out how to get it to talk to the simpleFOC library.
 
 - [x] Reverse engineer and troubleshoot the old circuitboard.
 - [x] Replace burnt out power transformer.
@@ -84,8 +85,9 @@ Maybe it's a hardware issue? Serial debug data was giving me some very weird val
 - [x] Connect the PSU, BLDC driver, Motor, switches, and arduino.
 - [x] Make the arduino talk with the BLDC driver. (Get open-loop control working)
 - [ ] Make the hall sensors talk to the arduino. (Get closed-loop control working)
-  - [ ] Figure out why the hall data is so weird.
-  - [ ] Find a way to implement angle sensing from three linear hall sensors set 120 degrees apart. 
+  - [x] Figure out why the hall data is so weird. (implemented rolling average smoothing and dynamic center adjustment)
+  - [x] Find a way to implement angle sensing from three linear hall sensors set 120 degrees apart. (clarke transform followed by atan2)
+  - [x] Get the sensor class to output useful angle and velocity data. (Rolling average smoothing worked fine for angle, velocity needed a time constant based approach)
    - Existing open source code expects two sensors 180 degrees apart or three digital halls.
 - [ ] Implement Speed selection and adjustment.
 - [ ] Tweak PID values and implement soft start.
@@ -95,6 +97,8 @@ Maybe it's a hardware issue? Serial debug data was giving me some very weird val
 # 📚 Credits
 Thanks to:
 
-SimpleFOC for making BLDC control more approachable
+SimpleFOC for making BLDC control more approachable.
 
-Andrew at Bushtronix for the hardware
+dekutree64 for making the original open source linear hall code and pointing me at a much easier solution than my spaghetti code. 
+
+Andrew at Bushtronix for the hardware.
