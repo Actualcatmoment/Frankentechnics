@@ -2,20 +2,18 @@
 
 #include "LinearHall.h"
 
-LinearHall::LinearHall(uint8_t _pp, uint16_t window, uint16_t vel_window)
-  : WINDOW(window),      // samples per rolling average
+LinearHall::LinearHall(uint8_t _pp, uint16_t window, float _tau): 
+    WINDOW(window),      // samples per rolling average
     POLE_PAIRS(_pp),       // 8 magnets → 4 electrical pole-pairs
-    VEL_WINDOW(vel_window), //samples for velocity calculation
-    MAX_VEL_RAD_S(10.0f),
+	TAU(_tau),
+    MAX_VEL_RAD_S(20.0f),
 	lastVelAngle(0.0f),
 	lastValidVel(0.0f),
 	lastVelMicros(0),
 	lastElec(0.0f),
-	elecUnwrapped(0.0f),
-	velAccum(0.0f),
-    velCount(0)
+	elecUnwrapped(0.0f)
   {
-	  for (int i = 0; i < PINS; ++i) buf[i] = new uint16_t[WINDOW];
+	for (int i = 0; i < PINS; ++i) buf[i] = new uint16_t[WINDOW];
   }
 
 // Update rolling average for channel ch (0 → A0, 1 → A1, 2 → A2)
@@ -86,51 +84,43 @@ float LinearHall::getSensorAngle() {
 }
 
 float LinearHall::getVelocity() {
-  // 1) read the current mechanical angle
-  float mech = getSensorAngle();  // wrapped [0…2π)
+  // 1) get the latest mechanical angle
+  float mech = getSensorAngle();
 
-  // 2) raw time now & dt in seconds
+  // 2) compute dt correctly
   unsigned long now = micros();
   float dt = (now - lastVelMicros) * 1e-6f;
   if (dt <= 0) dt = 1e-6f;
   lastVelMicros = now;
 
-  // 3) compute Δθ, unwrapping across 0↔2π
+  // 3) delta‐angle with wrap correction
   float delta = mech - lastVelAngle;
   if (delta >  M_PI) delta -= 2*M_PI;
   if (delta < -M_PI) delta += 2*M_PI;
   lastVelAngle = mech;
 
-  // 4) accumulate for a short window to smooth
-  velAccum += delta;
-  velCount++;
+  // 4) instantaneous velocity
+  float rawVel = delta / dt;
 
-  if (velCount >= VEL_WINDOW) {
-    // compute average velocity over the window
-    float totalDt = dt * float(velCount);
-    float rawVel  = velAccum / totalDt;
+  // 5) optional dead‐band & sanity clamp
+  if (fabs(rawVel) < 0.01f) rawVel = 0.0f; 
+  if (fabs(rawVel) > MAX_VEL_RAD_S) rawVel = lastValidVel;
 
-    // 5) optional dead-band for tiny drifts
-    if (fabs(rawVel) < 0.01f) rawVel = 0.0f;
-
-    // 6) sanity clamp
-    if (fabs(rawVel) > MAX_VEL_RAD_S) rawVel = lastValidVel;
-
-    // 7) reset accumulator
-    lastValidVel = rawVel;
-    velAccum     = 0;
-    velCount     = 0;
-  }
-
-  // 8) return the last filtered velocity
+  // 6) single‐pole IIR low-pass filter (time-constant τ)
+  //    lastValidVel holds the filtered output from the prior call.
+  float alpha = dt / (TAU + dt);          // dt/(τ + dt)
+  lastValidVel = alpha * rawVel
+               + (1.0f - alpha) * lastValidVel;
+			   
   return lastValidVel;
 }
 
 // Initialize buffers and sums
 void LinearHall::init() {
   for(int i = 0; i < PINS; ++i) {
-  memset(buf[i],  0, WINDOW * sizeof(buf));
+  memset(buf[i],  0, WINDOW * sizeof(uint16_t));
   }
+  velSum = 0; velIdx = velCount = 0;
   memset(sum,  0, sizeof(sum));
   memset(idx,  0, sizeof(idx));
   memset(spl,  0, sizeof(spl));
@@ -159,7 +149,6 @@ void LinearHall::init() {
   float beta  = (VB - VC) * 0.86602540378f;  // sqrt(3)/2
   float elec0 = atan2(beta, alpha);
   if (elec0 < 0) elec0 += 2*PI;
-
   lastElec      = elec0;
   elecUnwrapped = elec0;
   
@@ -168,6 +157,4 @@ void LinearHall::init() {
   lastVelMicros = micros();
   lastValidVel = 0.0f;
   lastVelAngle = mech0;
-  velAccum = 0.0f;
-  velCount = 0;
 }

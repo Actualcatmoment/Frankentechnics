@@ -11,8 +11,7 @@ public:
   static const uint8_t  PINS       = 3;   // channels A0, A1, A2
 
   // --- Constructor ---
-  // _pp and window are optional overrides of the above
-  LinearHall(uint8_t _pp, uint16_t window, uint16_t vel_window);
+  LinearHall(uint8_t _pp, uint16_t window, float _tau);
 
   // --- Initialization & state update ---
   void     init();
@@ -27,14 +26,12 @@ public:
 private:
   uint16_t WINDOW;  // samples per rolling average
   uint8_t  POLE_PAIRS;   // 8 magnets → 4 electrical pole-pairs
-  uint16_t VEL_WINDOW;
+  float TAU; // velocity smoothing interval in seconds
   float lastElec;
   float elecUnwrapped;
-  float   velAccum;
-  uint8_t velCount;
   
   // rolling average state
-  uint16_t *buf   [PINS];
+  uint16_t *buf  [PINS];
   uint32_t sum   [PINS];
   uint16_t idx   [PINS];
   uint16_t spl   [PINS];
@@ -50,6 +47,11 @@ private:
   float     lastVelAngle;
   float     lastValidVel;
   unsigned long lastVelMicros;
+  
+  // rolling‐average state for velocity
+  float    velSum   = 0;
+  uint16_t velIdx   = 0;
+  uint16_t velCount = 0;
 };
 
 #endif // LINEAR_HALL_H
