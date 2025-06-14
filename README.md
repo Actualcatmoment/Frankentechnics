@@ -64,7 +64,7 @@ Speed Selector & Strobe
 | File | Description | Status |
 | --- | --- | --- |
 | FT_simpleFOC.ino | closed-loop control script | Unfinished |
-| LinearHall.cpp & .h | Modified simpleFOC hall sensor class compatible with linear sensors | Working? |
+| LinearHall.cpp & .h | Modified simpleFOC hall sensor class compatible with linear sensors | Working! |
 
 # 🚧 Project Status
 🟡 In Progress – All components are built, still fighting with posistion sensing code issues.
@@ -87,6 +87,7 @@ still figuring out how to get it to talk to the simpleFOC library.
 - [ ] Make the hall sensors talk to the arduino. (Get closed-loop control working)
   - [x] Figure out why the hall data is so weird. (implemented rolling average smoothing and dynamic center adjustment)
   - [x] Find a way to implement angle sensing from three linear hall sensors set 120 degrees apart. (clarke transform followed by atan2)
+  - [x] Get the sensor class to output useful angle and velocity data. (Rolling average smoothing worked fine for angle, velocity needed a time constant based approach)
    - Existing open source code expects two sensors 180 degrees apart or three digital halls.
 - [ ] Implement Speed selection and adjustment.
 - [ ] Tweak PID values and implement soft start.
