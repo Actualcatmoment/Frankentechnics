@@ -71,8 +71,10 @@ Speed Selector & Strobe
 
 ~For whatever reason I cannot get simple FOC to detect rotation, despite the fact that it was working earlier.~
 
-Implemented clarke transform and atan2 to calculate angle of the platter from hall sensor input. Angle detection is now working, atleast within the sensor script.
-still figuring out how to get it to talk to the simpleFOC library.
+Implemented clarke transform and atan2 to calculate angle of the platter from hall sensor input. Angle detection is now working, ~atleast within the sensor script.
+still figuring out how to get it to talk to the simpleFOC library.~
+
+As of 16/06/25 the turntable is officially working! it took a bit of messing around with the PID gains to minimize the wow/flutter but it's good enough at this point, all that's left is to get the speed selector working and I can finally move on to the next project. (Also if you intend to tune by ear for the love of god don't use a psychedelic band, they add INTENTIONAL DRIFT to their damn songs, it's a nightmare) 
 
 - [x] Reverse engineer and troubleshoot the old circuitboard.
 - [x] Replace burnt out power transformer.
@@ -84,14 +86,14 @@ still figuring out how to get it to talk to the simpleFOC library.
   - [x] Build voltage dividing satellite board for two distinct adjustment ranges (and connect the strobe to this too for easy connection).
 - [x] Connect the PSU, BLDC driver, Motor, switches, and arduino.
 - [x] Make the arduino talk with the BLDC driver. (Get open-loop control working)
-- [ ] Make the hall sensors talk to the arduino. (Get closed-loop control working)
+- [x] Make the hall sensors talk to the arduino. (Get closed-loop control working)
   - [x] Figure out why the hall data is so weird. (implemented rolling average smoothing and dynamic center adjustment)
   - [x] Find a way to implement angle sensing from three linear hall sensors set 120 degrees apart. (clarke transform followed by atan2)
   - [x] Get the sensor class to output useful angle and velocity data. (Rolling average smoothing worked fine for angle, velocity needed a time constant based approach)
    - Existing open source code expects two sensors 180 degrees apart or three digital halls.
-- [ ] Implement Speed selection and adjustment.
-- [ ] Tweak PID values and implement soft start.
-- [ ] Tidy up the code. (also annotate it better)
+- [X] Implement Speed selection and adjustment.
+- [ ] Tweak PID values.
+- [X] Tidy up the code. (also annotate it better)
 - [ ] Celebrate by listening to my favorite album. (Night Gnomes by Psychedelic Porn Crumpets!)
 
 # 📚 Credits
